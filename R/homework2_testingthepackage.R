@@ -7,25 +7,10 @@
 #' @importFrom checkmate assert_number
 #' @importFrom httr
 #' @importFrom data.table
+#' @importFrom testthat
 #'
-get_usdeur <- function(retried = 0) {
-  tryCatch({
-    ## httr
-    usdeur <- fromJSON('https://api.exchangerate.host/latest?base=USD&symbols=EUR')$rates$EUR
-    assert_number(usdeur, lower = 0.9, upper = 1.1)
-  }, error = function(e) {
-    log_error(e$message)
-    if (retried > 3) {
-      stop('Gave up')
-    }
-    Sys.sleep(1 + retried ^ 2)
-    get_usdeur(retried = retried + 1)
-  })
-  log_info('1 USD={usdeur} EUR')
-  usdeur
-}
-
-
+library(httr)
+library(data.table)
 get_usdeurs <- function() {
   response <- GET(
     'https://api.exchangerate.host/timeseries',
@@ -46,6 +31,4 @@ get_usdeurs <- function() {
 
   return(get_usdeurs)
 }
-
-get_usdeurs()
 
