@@ -1,0 +1,25 @@
+name: Run Unit Tests
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v1
+        with:
+          r-version: 4.x
+
+      - name: Install dependencies
+        run: Rscript -e 'install.packages(c("testthat", "data.table", "httr"))'
+        
+      - name: Run unit tests
+        run: Rscript -e 'testthat::test_file("tests/test-0.R")'
