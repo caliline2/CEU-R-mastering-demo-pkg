@@ -21,8 +21,5 @@ jobs:
       - name: Install dependencies
         run: Rscript -e 'install.packages(c("testthat", "data.table", "httr"))'
 
-      - name: Navigate to test directory
-        run: cd CEU-R-mastering-demo-pkg/tests/testthat
-
       - name: Run unit tests
-        run: Rscript -e 'testthat::test_file("test-0.R")'
+        run: Rscript -e 'testthat::test_file("CEU-R-mastering-demo-pkg/tests/testthat/test-0.R")'
